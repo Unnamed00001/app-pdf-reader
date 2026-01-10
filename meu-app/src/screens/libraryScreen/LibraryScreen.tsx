@@ -1,16 +1,30 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import * as DocumentPicker from "expo-document-picker";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Dimensions, ScrollView } from "react-native";
 import { useLibrary } from "../../context/LibraryContext";
 import { BookCover } from "../../components/BookCover";
 import { ProgressBar } from "../../components/ProgressBar";
 import { BookMenu } from "../../components/BookMenu";
+import { MenuTypeBook } from "../../components/MenuTypeBook";
 import { styles } from "./styles";
-import { ScrollView } from "react-native-gesture-handler";
+import * as DocumentPicker from "expo-document-picker";
 
 export function LibraryScreen({ navigation }: any) {
+  const { width } = Dimensions.get("window");
+
+  const CONTAINER_WIDTH = width * 0.95;
+  const PADDING = 12;
+  const GAP = 10;
+  const COLUMNS = 4;
+  const ITEM_WIDTH = (CONTAINER_WIDTH - PADDING * 2 - GAP * (COLUMNS - 1)) / COLUMNS;
+  const COVER_HEIGHT = ITEM_WIDTH * 1.45;
+
   const { books, addBook } = useLibrary();
 
-  // Função para escolher PDF
+  const [tab, setTab] = useState<"all" | "fav">("all");
+  const [open, setOpen] = useState(false);
+
+  const filteredBooks = tab === "fav" ? books.filter(b => b.isFavorite) : books;
+
   async function pickPDF() {
     const result = await DocumentPicker.getDocumentAsync({
       type: "application/pdf",
@@ -19,7 +33,6 @@ export function LibraryScreen({ navigation }: any) {
 
     if (!result.canceled && result.assets.length > 0) {
       const file = result.assets[0];
-
       addBook({
         id: Date.now().toString(),
         name: file.name ?? "PDF sem nome",
@@ -27,68 +40,71 @@ export function LibraryScreen({ navigation }: any) {
         currentPage: 1,
         totalPages: 0,
         addedAt: Date.now(),
+        isFavorite: false,
       });
     }
   }
 
+  // Quebra os livros em fileiras de 4
+  const rows: any[][] = [];
+  for (let i = 0; i < filteredBooks.length; i += 4) {
+    rows.push(filteredBooks.slice(i, i + 4));
+  }
+
   return (
     <View style={styles.container}>
-      {/* Botão adicionar PDF */}
-      <TouchableOpacity onPress={pickPDF} style={styles.button}>
-        <Text style={styles.textButton}>🔍</Text>
-      </TouchableOpacity>
+      {/* Topo */}
+      <View style={styles.topBar}>
+        <TouchableOpacity style={styles.shelfButton} onPress={() => setOpen(true)}>
+          <Text style={styles.textButton}>Estante de livros</Text>
+          <MenuTypeBook
+            visible={open}
+            onClose={() => setOpen(false)}
+            tab={tab}
+            setTab={setTab}
+          />
+        </TouchableOpacity>
 
-
-      {/* Grid de livros */}
-      <ScrollView style={{ width: '100%', marginBottom: 80, borderRadius: 8 }}>
-        <View
-            style={{
-              flexDirection: "row",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              padding: 10,
-              backgroundColor: "#D9D9D9",
-              borderRadius: 8,
-              width: '95%',
-              alignSelf: 'center',
-        }}
-      >
-        {books.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={{
-              width: 85,
-              height: 135,
-              backgroundColor: "#00000000",
-              overflow: "hidden",
-              marginBottom: 15,
-              alignItems: "center",
-              justifyContent: "center",
-              borderWidth: 0.1,
-              borderColor: "#00000000",
-              paddingTop: 5,
-              
-            }}
-            onPress={() =>
-              navigation.navigate("Leitor", {
-                pdfUri: item.uri,
-                bookId: item.id,
-              })
-            }
-          >
-            {/* Menu de 3 pontos */}
-            <BookMenu bookId={item.id} />
-
-            {/* Capa do PDF */}
-            <BookCover pdfUri={item.uri} />
-
-            {/* Barra de progresso */}
-            <ProgressBar current={item.currentPage} total={item.totalPages} />
-          </TouchableOpacity>
-        ))}
+        <TouchableOpacity onPress={pickPDF} style={styles.buttonPDF}>
+          <Text style={styles.textButtonConfig}>⁝</Text>
+        </TouchableOpacity>
       </View>
+
+      {/* Estante */}
+      <ScrollView style={styles.scroll}>
+        <View style={[styles.booksContainer, { padding: PADDING }]}>
+          {tab === "fav" && filteredBooks.length === 0 && (
+            <Text style={styles.emptyText}>Nenhum favorito ainda ⭐</Text>
+          )}
+
+          {rows.map((row, rowIndex) => (
+            <View key={rowIndex} style={styles.rowContainer}>
+              {/* FILEIRA */}
+              <View style={styles.row}>
+                {row.map((item) => (
+                  <TouchableOpacity
+                    key={item.id}
+                    style={[styles.bookWrapper, { width: ITEM_WIDTH }]}
+                    onPress={() =>
+                      navigation.navigate("Leitor", {
+                        pdfUri: item.uri,
+                        bookId: item.id,
+                      })
+                    }
+                  >
+                    <BookMenu bookId={item.id} />
+                    <BookCover pdfUri={item.uri} width={ITEM_WIDTH} height={COVER_HEIGHT} />
+                    <ProgressBar current={item.currentPage} total={item.totalPages} />
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {/* PRATELEIRA */}
+              {rowIndex !== rows.length - 1 && <View style={styles.shelfDivider} />}
+            </View>
+          ))}
+        </View>
       </ScrollView>
-      
     </View>
   );
 }

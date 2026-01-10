@@ -36,7 +36,7 @@ export default function TabNavigator() {
           tabBarStyle: {
             backgroundColor: "transparent",
             position: "absolute",
-            height: 60,
+            height: 40,
             borderTopWidth: 0,
             elevation: 0,
           },
@@ -84,15 +84,12 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
   },
-  floatingIconContainer: {
-                   
+  floatingIconContainer: {        
     width: 150,
     height: 60,
     borderRadius: 25,
     backgroundColor: "#D9D9D9",
     justifyContent: "center",
     alignItems: "center",
-
-    
   },
 });

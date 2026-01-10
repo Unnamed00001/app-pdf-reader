@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { View, Dimensions } from "react-native";
 
 type Props = {
   current: number;
@@ -6,16 +6,18 @@ type Props = {
 };
 
 export function ProgressBar({ current, total }: Props) {
+  const screenWidth = Dimensions.get('window').width;
+  const ITEM_WIDTH = (screenWidth * 0.90 - 30 ) / 4; // 95% da tela - paddings / 4 itens
   const progress = total > 0 ? (current / total) * 100 : 0;
 
   return (
     <View style={{ 
       height: 6,
-      width: "100%", 
+      width: ITEM_WIDTH, 
       backgroundColor: "#FFFFFF",
       borderColor: "#000", 
       borderWidth: 0.5, 
-      borderRadius: 3,
+      borderRadius: 8,
       marginTop: 2,
 
     }}>
