@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: '2%',
     height: 40, 
-    width: '83%', 
+    width: '70%', 
     alignSelf: 'center', 
     backgroundColor: '#D9D9D9', 
     borderRadius: 8,
@@ -28,6 +28,16 @@ export const styles = StyleSheet.create({
     color: "#000",
   },
   buttonPDF: {
+    marginLeft: '2%',
+    height: 40, 
+    width: '10%', 
+    alignSelf: 'center', 
+    justifyContent: 'center',
+    backgroundColor: '#D9D9D9', 
+    borderRadius: 8,
+  },
+  button: {
+
     height: 40, 
     width: '10%', 
     alignSelf: 'center', 

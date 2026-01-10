@@ -55,7 +55,8 @@ export function LibraryScreen({ navigation }: any) {
     <View style={styles.container}>
       {/* Topo */}
       <View style={styles.topBar}>
-        <TouchableOpacity style={styles.shelfButton} onPress={() => setOpen(true)}>
+        
+        <TouchableOpacity style={styles.shelfButton}>
           <Text style={styles.textButton}>Estante de livros</Text>
           <MenuTypeBook
             visible={open}
@@ -63,6 +64,10 @@ export function LibraryScreen({ navigation }: any) {
             tab={tab}
             setTab={setTab}
           />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => setOpen(true)} style={styles.button}>
+          <Text style={styles.textButtonConfig}>⭐</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={pickPDF} style={styles.buttonPDF}>
