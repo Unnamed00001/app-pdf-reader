@@ -40,6 +40,7 @@ export const styles = StyleSheet.create({
 
     height: 40, 
     width: '10%', 
+    alignItems: 'center',
     alignSelf: 'center', 
     justifyContent: 'center',
     backgroundColor: '#D9D9D9', 

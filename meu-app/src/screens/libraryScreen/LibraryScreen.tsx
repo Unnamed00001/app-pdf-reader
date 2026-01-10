@@ -7,6 +7,7 @@ import { BookMenu } from "../../components/BookMenu";
 import { MenuTypeBook } from "../../components/MenuTypeBook";
 import { styles } from "./styles";
 import * as DocumentPicker from "expo-document-picker";
+import { AppIcon } from "../../components/AppIcon";
 
 export function LibraryScreen({ navigation }: any) {
   const { width } = Dimensions.get("window");
@@ -67,7 +68,7 @@ export function LibraryScreen({ navigation }: any) {
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => setOpen(true)} style={styles.button}>
-          <Text style={styles.textButtonConfig}>⭐</Text>
+          <AppIcon family="Fontisto" name="favorite" size={22} color="#2F2F2F" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={pickPDF} style={styles.buttonPDF}>
