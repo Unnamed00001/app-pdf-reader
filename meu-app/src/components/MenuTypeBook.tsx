@@ -15,7 +15,7 @@ export function MenuTypeBook({ visible, onClose, tab, setTab }: Props) {
       <Pressable style={styles.overlay} onPress={onClose}>
         {/* Card */}
         <Pressable style={styles.card} onPress={() => {}}>
-          <Text style={styles.title}>Tipo de exibição</Text>
+          {/*<Text style={styles.title}>Tipo de exibição</Text>
 
           {/* Botões */}
           <TouchableOpacity
@@ -25,7 +25,7 @@ export function MenuTypeBook({ visible, onClose, tab, setTab }: Props) {
               onClose();
             }}
           >
-            <Text style={tab === "all" ? styles.activeText : styles.text}>Todos</Text>
+            <Text style={tab === "all" ? styles.activeText : styles.text}>⊞</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -35,7 +35,7 @@ export function MenuTypeBook({ visible, onClose, tab, setTab }: Props) {
               onClose();
             }}
           >
-            <Text style={tab === "fav" ? styles.activeText : styles.text}>⭐ Favoritos</Text>
+            <Text style={tab === "fav" ? styles.activeText : styles.text}>❤</Text>
           </TouchableOpacity>
         </Pressable>
       </Pressable>
@@ -45,21 +45,23 @@ export function MenuTypeBook({ visible, onClose, tab, setTab }: Props) {
 
 const styles = StyleSheet.create({
   overlay: {
+    paddingTop: 70,
+    paddingRight: 51,
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-end",
   },
   card: {
-    width: 220,
+    width: 50,
     backgroundColor: "#2F2F2F",
     borderRadius: 12,
-    padding: 16,
+    padding: 5,
     alignItems: "center",
   },
   title: {
     fontWeight: "700",
-    fontSize: 16,
+    fontSize: 8,
     color: "#FFF",
     marginBottom: 12,
   },
@@ -67,22 +69,22 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingVertical: 10,
     borderRadius: 8,
-    marginVertical: 6,
+    marginVertical: 2,
     backgroundColor: "#DDD",
     alignItems: "center",
   },
   activeAll: {
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#9f9f9f",
   },
   activeFav: {
-    backgroundColor: "#FFD700",
+    backgroundColor: "#9f9f9f",
   },
   text: {
-    color: "#000",
+    color: "#000000",
     fontWeight: "600",
   },
   activeText: {
-    color: "#000",
+    color: "#000000",
     fontWeight: "700",
   },
 });

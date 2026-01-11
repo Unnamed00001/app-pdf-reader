@@ -2,8 +2,8 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
+import { AppIcon } from "../components/AppIcon";
 import { LibraryScreen } from "../screens/libraryScreen/LibraryScreen";
 import { PdfScreen } from "../screens/pdfScreen/PdfScreen";
 import { SettingsScreen } from "../screens/settingsScreen/SettingsScreen";
@@ -21,7 +21,7 @@ const TabBarBackground = () => {
 const FloatingIcon = ({ name, color, size }: any) => {
   return (
     <View style={styles.floatingIconContainer}>
-      <MaterialCommunityIcons name={name} color={color} size={size} />
+      <AppIcon family="Ionicons" name="book" size={40} color="#2F2F2F" />
     </View>
   );
 };
@@ -48,7 +48,7 @@ export default function TabNavigator() {
           component={LibraryScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="bookshelf" color={color} size={size} />
+              <AppIcon family="MaterialCommunityIcons" name="bookshelf" size={30} color="#2F2F2F" />
             ),
           }}
         />
@@ -66,7 +66,7 @@ export default function TabNavigator() {
           component={SettingsScreen}
           options={{
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="cog-outline" color={color} size={size} />
+              <AppIcon family="Fontisto" name="book" size={22} color="#2F2F2F" />
             ),
           }}
         />

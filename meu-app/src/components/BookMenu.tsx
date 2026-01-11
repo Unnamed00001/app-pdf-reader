@@ -9,6 +9,7 @@ type Props = {
 
 export function BookMenu({ bookId }: Props) {
   const [visible, setVisible] = useState(false);
+  const [confirmedDelete, setConfirmedDelete] = useState(false);
   const { removeBook, updateBook, books, toggleFavorite } = useLibrary();
 
   const book = books.find(b => b.id === bookId);
@@ -58,80 +59,131 @@ export function BookMenu({ bookId }: Props) {
           <Pressable
             onPress={() => {}}
             style={{
-              width: "80%",
+              width: "90%",
               backgroundColor: "#2F2F2F",
               borderRadius: 14,
               padding: 14,
               alignItems: "center",
               elevation: 12,
+              flexDirection: "row",
             }}
-          >
-            {/* CAPA */}
-            {book?.uri && (
+          > 
+            <View style={{ alignItems: "center", marginRight: 20 }}>
+              {/* CAPA */}
               <BookCover
-                pdfUri={book.uri}
+                pdfUri={book?.uri || ""}
                 width={COVER_WIDTH}
                 height={COVER_HEIGHT}
               />
-            )}
 
-            {/* PROGRESSO */}
-            {book && (
-              <Text style={{ marginTop: 10, fontSize: 14, color: "#FFFFFF" }}>
-                Página {book.currentPage} de {book.totalPages || "?"}
-              </Text>
-            )}
+              {/* PROGRESSO */}
+              <View style={{ 
+                alignItems: "center", 
+                backgroundColor: "#ffffff", 
+                padding: 8, 
+                borderRadius: 8, 
+                marginTop: 5, 
+                width: COVER_WIDTH,
+                height: 30,
+                justifyContent: "center",
 
-            {/* BOTÕES */}
-            <View style={{ width: "100%", marginTop: 14 }}>
-              
-              <TouchableOpacity
-                onPress={handleReset}
-                style={{
-                  backgroundColor: "#D9D9D9",
-                  borderRadius: 8,
-                  padding: 12,
-                  marginBottom: 10
-                }}
-              >
-                <Text style={{ fontSize: 16, color: "#000", textAlign: "center" }}>
-                  Redefinir leitura
+              }}>
+
+                {book && (
+                <Text style={{ 
+                  marginTop: -2, 
+                  fontSize: 12, 
+                  color: "#000000",  
+                  fontWeight: "bold",
+
+                }}>
+                  Página {book.currentPage} de {book.totalPages || "?"}
                 </Text>
-              </TouchableOpacity>
-
+              )}
+              </View>
+            </View>
+            
+            {/* BOTÕES */}
+            <View style={{ flex: 1, justifyContent: "space-around", height: COVER_HEIGHT }}>
               <TouchableOpacity
                 onPress={handleFavorite}
-                style={{
-                  backgroundColor: book?.isFavorite ? "#FFD700" : "#D9D9D9",
-                  borderRadius: 8,
-                  padding: 12,
-                  marginBottom: 10
-                }}
+                style={{ padding: 10, backgroundColor: "#4CAF50", borderRadius: 8 }}
               >
-                <Text style={{ 
-                  fontSize: 16, 
-                  color: "#000", 
-                  textAlign: "center",
-                  fontWeight: "600"
-                }}>
-                  {book?.isFavorite ? "Remover dos favoritos ⭐" : "Marcar como favorito ⭐"}
+                <Text style={{ color: "#FFFFFF", fontWeight: "bold", textAlign: "center" }}>
+                  {book?.isFavorite ? "Remover dos Favoritos" : "Adicionar aos Favoritos"}
                 </Text>
               </TouchableOpacity>
-
               <TouchableOpacity
-                onPress={handleDelete}
-                style={{
-                  backgroundColor: "#D9D9D9",
-                  borderRadius: 8,
-                  padding: 12,
-                }}
+                onPress={handleReset}
+                style={{ padding: 10, backgroundColor: "#2196F3", borderRadius: 8 }}
               >
-                <Text style={{ fontSize: 16, color: "red", textAlign: "center" }}>
-                  Apagar PDF
+                <Text style={{ color: "#FFFFFF", fontWeight: "bold", textAlign: "center" }}>
+                  Resetar Progresso
                 </Text>
               </TouchableOpacity>
-
+              
+              <TouchableOpacity
+                onPress={() => setConfirmedDelete(true)}
+                style={{ padding: 10, backgroundColor: "#F44336", borderRadius: 8 }}
+              >
+                <Text style={{ color: "#FFFFFF", fontWeight: "bold", textAlign: "center" }}>
+                  Deletar Livro
+                </Text>
+              </TouchableOpacity>
+              
             </View>
+            <Modal transparent visible={confirmedDelete} animationType="fade">
+              
+              {/* FUNDO */}
+              <Pressable
+                onPress={() => setConfirmedDelete(false)}
+                style={{
+                  flex: 1,
+                  backgroundColor: "rgba(0, 0, 0, 0.6)",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              > 
+                {/* CARD */}
+                <Pressable
+                  onPress={() => {}}
+                  style={{
+                    width: "80%",
+                    backgroundColor: "#2F2F2F",
+                    borderRadius: 14,
+                    padding: 14,
+                    alignItems: "center",
+                    elevation: 12,
+                    flexDirection: "column",
+                  }}
+                >
+                  <Text style={{ color: "#FFFFFF", fontSize: 18, marginBottom: 20, textAlign: "center" }}>
+                    Tem certeza que deseja deletar este livro?
+                  </Text>
+                  <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+                    <TouchableOpacity
+                      onPress={() => setConfirmedDelete(false)}
+                      style={{ padding: 10, backgroundColor: "#2196F3", borderRadius: 8, flex: 1, marginRight: 5 }}
+                    >
+                      <Text style={{ color: "#FFFFFF", fontWeight: "bold", textAlign: "center" }}>
+                        Cancelar
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={handleDelete}
+                      style={{ padding: 10, backgroundColor: "#F44336", borderRadius: 8, flex: 1, marginLeft: 5 }}
+                    >
+                      <Text style={{ color: "#FFFFFF", fontWeight: "bold", textAlign: "center" }}>
+                        Deletar
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </Pressable>
+
+              </Pressable>
+            </Modal>
+
+            
           </Pressable>
 
         </Pressable>

@@ -8,6 +8,7 @@ import { MenuTypeBook } from "../../components/MenuTypeBook";
 import { styles } from "./styles";
 import * as DocumentPicker from "expo-document-picker";
 import { AppIcon } from "../../components/AppIcon";
+import { KebabMenu } from "../../components/KebabMenu";
 
 export function LibraryScreen({ navigation }: any) {
   const { width } = Dimensions.get("window");
@@ -25,8 +26,9 @@ export function LibraryScreen({ navigation }: any) {
   const [open, setOpen] = useState(false);
 
   const filteredBooks = tab === "fav" ? books.filter(b => b.isFavorite) : books;
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  async function pickPDF() {
+  async  function pickPDF() {
     const result = await DocumentPicker.getDocumentAsync({
       type: "application/pdf",
       copyToCacheDirectory: true,
@@ -71,9 +73,10 @@ export function LibraryScreen({ navigation }: any) {
           <AppIcon family="Fontisto" name="favorite" size={22} color="#2F2F2F" />
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={pickPDF} style={styles.buttonPDF}>
-          <Text style={styles.textButtonConfig}>⁝</Text>
-        </TouchableOpacity>
+        <KebabMenu
+          onAddPdf={() => pickPDF()}
+          onOpenSettings={() => navigation.navigate("Configurações")}
+        />
       </View>
 
       {/* Estante */}

@@ -1,6 +1,6 @@
-import { Ionicons, MaterialIcons, Feather, AntDesign, Fontisto} from "@expo/vector-icons";
+import { Ionicons, MaterialIcons, Feather, AntDesign, Fontisto, MaterialCommunityIcons} from "@expo/vector-icons";
 
-type IconFamily = "Ionicons" | "MaterialIcons" | "Feather" | "AntDesign" | "Fontisto";
+type IconFamily = "Ionicons" | "MaterialIcons" | "Feather" | "AntDesign" | "Fontisto" | "MaterialCommunityIcons";
 
 type AppIconProps = {
   family?: IconFamily;
@@ -22,6 +22,7 @@ export function AppIcon({
     Feather,
     AntDesign,
     Fontisto,
+    MaterialCommunityIcons,
   }[family];
 
   return <Icon name={name} size={size} color={color} />;
