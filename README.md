@@ -1,8 +1,3 @@
-# app-pdf-reader
-
-Perfeito! Vou criar um **README completo e organizado** para o seu projeto de leitor de PDFs com estante de livros e favoritos. Vou considerar que ele está feito em **React Native + TypeScript + Expo**, e que tem as funcionalidades que você mencionou.
-
----
 
 # 📚 PDF Reader App
 
